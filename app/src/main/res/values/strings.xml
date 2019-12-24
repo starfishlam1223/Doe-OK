@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Doe OK</string>
     <!-- Strings related to login -->
-    <string name="prompt_username">Username</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_full_name">Full Name</string>
+    <string name="prompt_username">Enter your username</string>
+    <string name="prompt_password">Enter your password</string>
+    <string name="prompt_full_name">Enter your full name</string>
+    <string name="prompt_email">Enter your E-mail</string>
+    <string name="desc_avatar">Avatar</string>
+    <string name="desc_username">Username</string>
+    <string name="desc_password">Password</string>
+    <string name="desc_full_name">Full Name</string>
+    <string name="desc_email">E-mail</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_cancel">Cancel</string>
@@ -12,6 +18,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_main_app">MainApp</string>
+    <string name="title_register">Registration</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

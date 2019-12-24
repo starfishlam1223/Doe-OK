@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +39,24 @@ public class Login extends AppCompatActivity {
         register = findViewById(R.id.login_register);
         login = findViewById(R.id.login_login);
 
+        TextWatcher checker = new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String usernameStr = username.getText().toString();
+                String passwordStr = password.getText().toString();
+
+                if (!usernameStr.isEmpty() && !passwordStr.isEmpty()) {
+                    login.setEnabled(true);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        };
+        username.addTextChangedListener(checker);
+        password.addTextChangedListener(checker);
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +75,9 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onSuccess(QBUser qbUser, Bundle bundle) {
                         Toast.makeText(getBaseContext(), "Login successfully", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(Login.this, MainApp.class));
+                        Intent main = new Intent(Login.this, MainApp.class);
+                        main.putExtra("user", qbUser);
+                        startActivity(main);
                     }
 
                     @Override
