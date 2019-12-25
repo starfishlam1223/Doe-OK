@@ -1,8 +1,14 @@
 package com.starfishlam.doeok;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +30,11 @@ public class Login extends AppCompatActivity {
     static final String AUTH_SECRET = "LUcyO5OecsqHK9-";
     static final String ACCOUNT_KEY = "ouy58v2MnYmQ4avombhh";
 
+    QBUser loginedUser;
+
+    Context mCtx;
+    Activity mAct;
+
     EditText username, password;
     Button register, login;
 
@@ -33,6 +44,9 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initializeFramework();
+
+        mCtx = this;
+        mAct = this;
 
         username = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
@@ -75,9 +89,19 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onSuccess(QBUser qbUser, Bundle bundle) {
                         Toast.makeText(getBaseContext(), "Login successfully", Toast.LENGTH_LONG).show();
-                        Intent main = new Intent(Login.this, MainApp.class);
-                        main.putExtra("user", qbUser);
-                        startActivity(main);
+
+                        loginedUser = qbUser;
+
+                        if (ContextCompat.checkSelfPermission(mCtx, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                                ContextCompat.checkSelfPermission(mCtx, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(mAct,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    Common.MY_PERMISSION_REQUEST_READ_FINE_LOCATION);
+                        } else {
+                            Intent main = new Intent(Login.this, MainApp.class);
+                            main.putExtra("user", loginedUser);
+                            startActivity(main);
+                        }
                     }
 
                     @Override
@@ -87,6 +111,33 @@ public class Login extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Common.MY_PERMISSION_REQUEST_READ_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                    Intent main = new Intent(Login.this, MainApp.class);
+                    main.putExtra("user", loginedUser);
+                    startActivity(main);
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    finish();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     private void initializeFramework() {
