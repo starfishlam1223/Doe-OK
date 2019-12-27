@@ -25,10 +25,6 @@ import com.quickblox.users.model.QBUser;
 
 public class Login extends AppCompatActivity {
 
-    static final String APP_ID = "79665";
-    static final String AUTH_KEY = "WRaWNeYzrBYJLyc";
-    static final String AUTH_SECRET = "LUcyO5OecsqHK9-";
-    static final String ACCOUNT_KEY = "ouy58v2MnYmQ4avombhh";
 
     QBUser loginedUser;
 
@@ -61,6 +57,8 @@ public class Login extends AppCompatActivity {
 
                 if (!usernameStr.isEmpty() && !passwordStr.isEmpty()) {
                     login.setEnabled(true);
+                } else {
+                    login.setEnabled(false);
                 }
             }
 
@@ -141,7 +139,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void initializeFramework() {
-        QBSettings.getInstance().init(getApplicationContext(), APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+        QBSettings.getInstance().init(getApplicationContext(), Common.APP_ID, Common.AUTH_KEY, Common.AUTH_SECRET);
+        QBSettings.getInstance().setAccountKey(Common.ACCOUNT_KEY);
     }
 }

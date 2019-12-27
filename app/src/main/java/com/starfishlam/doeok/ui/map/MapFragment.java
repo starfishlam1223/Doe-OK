@@ -23,7 +23,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.starfishlam.doeok.MainApp;
 import com.starfishlam.doeok.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -78,9 +80,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             options.position(currentLatLng);
             options.title("Current Position");
 
-            map.addMarker(options);
+            Marker marker = map.addMarker(options);
+            Restaurant currnetLocation = new Restaurant("", "", "", 0);
+            marker.setTag(currnetLocation);
 
             if (prevLatLng == null) {
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLatLng, 15);
+                map.animateCamera(update);
+
                 retrieveRestaurants();
             } else if (distBetweenLatLng(prevLatLng, currentLatLng) > 500) {
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLatLng, 15);
@@ -119,9 +126,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         String url = sb.toString();
 
-        Object data[] = new Object[2];
+        Object data[] = new Object[5];
         data[0] = map;
         data[1] = url;
+        data[2] = getContext();
+        data[3] = getResources().getString(R.string.google_places_key);
+        MainApp parent = (MainApp) getActivity();
+        data[4] = parent.getCurrentUserID();
 
         GetNearbyPlaces gnp = new GetNearbyPlaces();
         gnp.execute(data);

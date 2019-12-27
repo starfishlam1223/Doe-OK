@@ -17,4 +17,24 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MarkerBoxText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/whiteText</item>
+    </style>
+
+    <style name="RestOpen">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/greenText</item>
+    </style>
+
+    <style name="RestClosed">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/redText</item>
+    </style>
+
+    <style name="RestUnknown">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/greyText</item>
+    </style>
+
 </resources>

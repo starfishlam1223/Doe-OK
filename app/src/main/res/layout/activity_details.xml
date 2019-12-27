@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".details.Details">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/details_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/rest_name_ph"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:layout_constraintBottom_toTopOf="@id/details_vicinity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/details_vicinity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/rest_vicinity_ph"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@id/details_open"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/details_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/rest_unknown"
+                android:textAppearance="@style/RestUnknown"
+                app:layout_constraintBottom_toTopOf="@id/details_rating"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/details_rating_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/rest_rating_title"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/details_rating"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/details_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/rest_rating_ph"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                app:layout_constraintStart_toEndOf="@+id/details_rating_title"
+                app:layout_constraintTop_toBottomOf="@id/details_open" />
+
+            <TextView
+                android:id="@+id/details_rating_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="@string/rest_rating_full"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/details_rating"
+                app:layout_constraintStart_toEndOf="@+id/details_rating" />
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_rating_full"
+                tools:layout_editor_absoluteY="918dp" />
+
+            <RelativeLayout
+                android:id="@+id/no_review_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@android:id/list"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    tools:srcCompat="#dddddd" />
+
+                <TextView
+                    android:id="@+id/rest_no_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/rest_no_review"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/details_write_review"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/no_review_box">
+
+                <ImageView
+                    android:id="@+id/details_write_review_box"
+                    android:layout_width="0dp"
+                    android:layout_height="325dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:clickable="false"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@color/colorBackground" />
+
+                <EditText
+                    android:id="@+id/details_write_review_title"
+                    android:layout_width="375dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:hint="@string/prompt_title"
+                    android:inputType="textPersonName"
+                    android:maxLength="33"
+                    app:layout_constraintStart_toStartOf="@+id/details_write_review_box"
+                    app:layout_constraintTop_toTopOf="@+id/details_write_review_box" />
+
+                <TextView
+                    android:id="@+id/details_write_review_rating_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/prompt_rating"
+                    app:layout_constraintStart_toStartOf="@+id/details_write_review_box"
+                    app:layout_constraintTop_toBottomOf="@+id/details_write_review_title" />
+
+                <RadioGroup
+                    android:id="@+id/details_write_review_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/details_write_review_box"
+                    app:layout_constraintTop_toBottomOf="@+id/details_write_review_rating_desc">
+
+                    <RadioButton
+                        android:id="@+id/details_write_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_option_1" />
+
+                    <RadioButton
+                        android:id="@+id/details_write_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_option_2" />
+
+                    <RadioButton
+                        android:id="@+id/details_write_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_option_3" />
+
+                    <RadioButton
+                        android:id="@+id/details_write_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_option_4" />
+
+                    <RadioButton
+                        android:id="@+id/details_write_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_option_5" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/details_write_review_content"
+                    android:layout_width="375dp"
+                    android:layout_height="165dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:ems="10"
+                    android:gravity="start|left"
+                    android:hint="@string/prompt_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="450"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/details_write_review_box"
+                    app:layout_constraintTop_toBottomOf="@+id/details_write_review_rating" />
+
+                <Button
+                    android:id="@+id/details_write_review_submit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="@string/action_submit"
+                    app:layout_constraintBottom_toBottomOf="@+id/details_write_review_box"
+                    app:layout_constraintEnd_toEndOf="@+id/details_write_review_box"
+                    app:layout_constraintStart_toStartOf="@+id/details_write_review_box"
+                    app:layout_constraintTop_toBottomOf="@+id/details_write_review_content" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

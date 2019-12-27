@@ -3,5 +3,10 @@
     <color name="colorPrimary">#9900cc</color>
     <color name="colorPrimaryDark">#660066</color>
     <color name="colorAccent">#6600CC</color>
-    <color name="colorBackground">#9966cc</color>
+    <color name="colorBackground">#889966CC</color>
+
+    <color name="whiteText">#ffffff</color>
+    <color name="greenText">#4dab6b</color>
+    <color name="redText">#ab4d4d</color>
+    <color name="greyText">#aaaaaa</color>
 </resources>
