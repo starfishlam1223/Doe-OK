@@ -1,16 +1,16 @@
-package com.starfishlam.doeok.ui.map;
+package com.starfishlam.doeok.ui.reviews;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MapViewModel extends ViewModel {
+public class ReviewsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public MapViewModel() {
+    public ReviewsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is map fragment");
+        mText.setValue("This is reviews fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.reviews.ReviewDetails">
+
+    <ImageView
+        android:id="@+id/details_edit_review_box"
+        android:layout_width="0dp"
+        android:layout_height="375dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@color/colorBackground" />
+
+    <EditText
+        android:id="@+id/details_edit_review_title"
+        android:layout_width="375dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/prompt_title"
+        android:inputType="textPersonName"
+        android:maxLength="33"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toTopOf="@+id/details_edit_review_box" />
+
+    <TextView
+        android:id="@+id/details_edit_review_rating_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/prompt_rating"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toBottomOf="@+id/details_edit_review_title" />
+
+    <RadioGroup
+        android:id="@+id/details_edit_review_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toBottomOf="@+id/details_edit_review_rating_desc">
+
+        <RadioButton
+            android:id="@+id/details_edit_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_option_1" />
+
+        <RadioButton
+            android:id="@+id/details_edit_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_option_2" />
+
+        <RadioButton
+            android:id="@+id/details_edit_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_option_3" />
+
+        <RadioButton
+            android:id="@+id/details_edit_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_option_4" />
+
+        <RadioButton
+            android:id="@+id/details_edit_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_option_5" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/details_edit_review_content"
+        android:layout_width="375dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:gravity="start|left"
+        android:hint="@string/prompt_content"
+        android:inputType="textMultiLine"
+        android:maxLength="450"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toBottomOf="@+id/details_edit_review_rating" />
+
+    <Button
+        android:id="@+id/details_edit_review_save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/action_save"
+        app:layout_constraintEnd_toEndOf="@+id/details_edit_review_box"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toBottomOf="@+id/details_edit_review_content" />
+
+    <Button
+        android:id="@+id/details_edit_review_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/action_delete"
+        app:layout_constraintEnd_toEndOf="@+id/details_edit_review_box"
+        app:layout_constraintStart_toStartOf="@+id/details_edit_review_box"
+        app:layout_constraintTop_toBottomOf="@+id/details_edit_review_save" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

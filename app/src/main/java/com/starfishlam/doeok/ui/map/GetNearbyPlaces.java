@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.starfishlam.doeok.Common;
 import com.starfishlam.doeok.R;
-import com.starfishlam.doeok.details.Details;
+import com.starfishlam.doeok.ui.map.details.Details;
 
 import org.json.JSONArray;
 import org.json.JSONException;

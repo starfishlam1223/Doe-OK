@@ -8,6 +8,11 @@
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_fragment"
             android:title="@string/menu_map" />
+
+        <item
+            android:id="@+id/nav_my_reviews"
+            android:icon="@drawable/ic_reviews_fragment"
+            android:title="@string/menu_my_reviews" />
     </group>
 
 </menu>

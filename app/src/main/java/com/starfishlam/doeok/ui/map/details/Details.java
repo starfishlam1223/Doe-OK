@@ -1,6 +1,5 @@
-package com.starfishlam.doeok.details;
+package com.starfishlam.doeok.ui.map.details;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
@@ -23,15 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSettings;
-import com.quickblox.chat.QBChatService;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.starfishlam.doeok.Common;
 import com.starfishlam.doeok.R;
+import com.starfishlam.doeok.Review;
 import com.starfishlam.doeok.ui.map.Restaurant;
 
 import org.json.JSONArray;
@@ -160,7 +158,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
         } else if (taskCode == Common.ACTION_GET_REVIEW_LIST) {
             url = "https://i.cs.hku.hk/~hslam/comp3330/doe-ok/php/reviews.php?restid=" + restId;
         } else if (taskCode == Common.ACTION_WRITE_REVIEW) {
-            url = "https://i.cs.hku.hk/~hslam/comp3330/doe-ok/php/write.php?restid=" + restId + "&userid=" + currentUserId + "&rating=" + reviewRatingInt + "&title=" + reviewTitleStr + "&content=" + reviewContentStr;
+            url = "https://i.cs.hku.hk/~hslam/comp3330/doe-ok/php/write.php?restid=" + restId + "&userid=" + currentUserId + "&rating=" + reviewRatingInt + "&title=" + reviewTitleStr + "&content=" + reviewContentStr + "&rest_name=" + nameStr;
         }
 
         final String finalUrl = url;
@@ -246,7 +244,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
                             titleStr = jsonEvent.getString("title");
                             contentStr = jsonEvent.getString("content");
 
-                            Review review = new Review(fullnameStr, commentDateStr, ratingInt, titleStr, contentStr);
+                            Review review = new Review(nameStr, fullnameStr, commentDateStr, ratingInt, titleStr, contentStr);
 
                             reviews.add(review);
 
@@ -278,7 +276,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
                 connect(Common.ACTION_GET_AVERAGE);
                 connect(Common.ACTION_GET_REVIEW_LIST);
             } else {
-                Toast.makeText(this, "Review submit failed! Please tryu again!", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Review submit failed! Please try again!", Toast.LENGTH_LONG);
             }
         } catch (JSONException e) {
             e.printStackTrace();

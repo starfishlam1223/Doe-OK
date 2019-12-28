@@ -4,6 +4,8 @@ public class Common {
     public static final int ACTION_GET_AVERAGE = 0;
     public static final int ACTION_GET_REVIEW_LIST = 1;
     public static final int ACTION_WRITE_REVIEW = 2;
+    public static final int ACTION_EDIT_REVIEW = 3;
+    public static final int ACTION_DELETE_REVIEW = 4;
 
     public static final int REST_UNKNOWN = 10;
     public static final int REST_OPEN = 11;
