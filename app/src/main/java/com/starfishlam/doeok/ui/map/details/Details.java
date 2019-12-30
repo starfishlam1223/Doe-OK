@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +19,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
@@ -37,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -54,18 +59,21 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
     String titleStr;
     String contentStr;
 
+    LatLng restLatLng, currentLatLng;
     String restId;
     String nameStr;
     int openStatus;
     String vicinityStr;
     double avgRatingDb;
+    String imageStr;
 
     RelativeLayout noReview;
     ConstraintLayout writeReview;
-    TextView name, vicinity, open, avgRating;
+    TextView name, vicinity, distance, open, avgRating;
     EditText reviewTitle, reviewContent;
     RadioGroup rating;
     Button submit;
+    ImageView image;
 
     int currentUserId;
     String reviewTitleStr, reviewContentStr;
@@ -83,8 +91,10 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
         noReview = findViewById(R.id.no_review_box);
         writeReview = findViewById(R.id.details_write_review);
 
+        image = findViewById(R.id.details_image);
         name = findViewById(R.id.details_name);
         vicinity = findViewById(R.id.details_vicinity);
+        distance = findViewById(R.id.details_distance);
         open = findViewById(R.id.details_open);
         avgRating = findViewById(R.id.details_rating);
 
@@ -99,6 +109,21 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
         Restaurant rest = (Restaurant) parent.getSerializableExtra("info");
         restId = rest.getId();
         currentUserId = parent.getIntExtra("currentUser", -1);
+        Double restLat = rest.getLat();
+        Double restLng = rest.getLng();
+        Log.e("restLat", String.valueOf(restLat));
+        Log.e("restLng", String.valueOf(restLng));
+        restLatLng = new LatLng(restLat, restLng);
+        Double currentLat = parent.getDoubleExtra("currentLat", 0);
+        Double currentLng = parent.getDoubleExtra("currentLng", 0);
+        Log.e("currentLat", String.valueOf(currentLat));
+        Log.e("currentLng", String.valueOf(currentLng));
+        currentLatLng = new LatLng(currentLat, currentLng);
+        imageStr = rest.getImage();
+
+        Double ditanceDb = distBetweenLatLng(restLatLng, currentLatLng);
+        Log.e("ditanceDb", String.valueOf(ditanceDb));
+        int distanceInt = (int) Math.round(ditanceDb / 100) * 100;
 
         if (currentUserId == -1) {
             Toast msg = Toast.makeText(this ,"Cannot identify user!", Toast.LENGTH_LONG);
@@ -106,6 +131,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
             finish();
         }
 
+        new DownloadImageTask(image).execute(imageStr);
         nameStr = rest.getName();
         openStatus = rest.getOpen();
         vicinityStr = rest.getVicinity();
@@ -123,6 +149,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
             }
         }
         vicinity.setText(vicinityStr);
+        distance.setText("~" + distanceInt + "m");
 
         setup_write_review();
 
@@ -396,5 +423,53 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
     private void initializeFramework() {
         QBSettings.getInstance().init(getApplicationContext(), Common.APP_ID, Common.AUTH_KEY, Common.AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(Common.ACCOUNT_KEY);
+    }
+
+    private double distBetweenLatLng(LatLng latLng1, LatLng latLng2) {
+        double lat1 = latLng1.latitude;
+        double lon1 = latLng1.longitude;
+        double lat2 = latLng2.latitude;
+        double lon2 = latLng2.longitude;
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = 0;
+
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+        return Math.sqrt(distance);
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }

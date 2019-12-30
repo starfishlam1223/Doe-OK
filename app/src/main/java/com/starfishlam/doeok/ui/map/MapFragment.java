@@ -81,7 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             options.title("Current Position");
 
             Marker marker = map.addMarker(options);
-            Restaurant currnetLocation = new Restaurant("", "", "", 0);
+            Restaurant currnetLocation = new Restaurant("", "", "", 0, currentLatLng.latitude, currentLatLng.longitude, "");
             marker.setTag(currnetLocation);
 
             if (prevLatLng == null) {
@@ -126,13 +126,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         String url = sb.toString();
 
-        Object data[] = new Object[5];
+        Object data[] = new Object[7];
         data[0] = map;
         data[1] = url;
         data[2] = getContext();
         data[3] = getResources().getString(R.string.google_places_key);
         MainApp parent = (MainApp) getActivity();
         data[4] = parent.getCurrentUserID();
+        data[5] = currentLatLng.latitude;
+        data[6] = currentLatLng.longitude;
 
         GetNearbyPlaces gnp = new GetNearbyPlaces();
         gnp.execute(data);

@@ -36,6 +36,8 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
     StringBuilder sb;
     String ApiKey;
     int currentUserId;
+    Double currentLat, currentLng;
+    Double restLat, restLng;
 
     Context mCtx;
 
@@ -46,6 +48,8 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
         mCtx = (Context) objects[2];
         ApiKey = (String) objects[3];
         currentUserId = (int) objects[4];
+        currentLat = (Double) objects[5];
+        currentLng = (Double) objects[6];
 
         try {
             URL url = new URL(urlStr);
@@ -77,12 +81,16 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
             JSONArray restaurants = rootObject.getJSONArray("results");
             Log.e("JSON rest no", String.valueOf(restaurants.length()));
 
+            String latStr = "", lngStr = "";
+
             for(int i = 0; i < restaurants.length(); i++) {
                 JSONObject restJson = restaurants.getJSONObject(i);
                 JSONObject locationJson = restJson.getJSONObject("geometry").getJSONObject("location");
 
-                String lat = locationJson.getString("lat");
-                String lng = locationJson.getString("lng");
+                latStr = locationJson.getString("lat");
+                lngStr = locationJson.getString("lng");
+                restLat = Double.parseDouble(latStr);
+                restLng = Double.parseDouble(lngStr);
 
                 String id = restJson.getString("id");
 
@@ -98,7 +106,11 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
                     }
                 }
 
-                LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                LatLng latLng = new LatLng(Double.parseDouble(latStr), Double.parseDouble(lngStr));
+
+                JSONArray photoDetails = restJson.getJSONArray("photos");
+                String photo_reference = photoDetails.getJSONObject(0).getString("photo_reference");
+                String photo = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photo_reference + "&key=" + ApiKey;
 
                 IconGenerator ig = new IconGenerator(mCtx);
                 ig.setColor(R.color.colorPrimaryDark); // green background
@@ -108,10 +120,12 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(ig.makeIcon(name)));
 
                 Marker restMarker = mMap.addMarker(markerOptions);
-                Restaurant rest = new Restaurant(id, name, vicinity, open);
+                Restaurant rest = new Restaurant(id, name, vicinity, open, latLng.latitude, latLng.longitude, photo);
                 restMarker.setTag(rest);
             }
 
+            final Double finalCurLat = currentLat;
+            final Double finalCurLng = currentLng;
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -120,6 +134,8 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
                         Intent details = new Intent(mCtx, Details.class);
                         details.putExtra("currentUser", currentUserId);
                         details.putExtra("info", info);
+                        details.putExtra("currentLat", finalCurLat);
+                        details.putExtra("currentLng", finalCurLng);
                         mCtx.startActivity(details);
                     }
                     return false;
@@ -133,12 +149,14 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
 
                 String url = sb.toString();
 
-                Object data[] = new Object[5];
+                Object data[] = new Object[7];
                 data[0] = mMap;
                 data[1] = url;
                 data[2] = mCtx;
                 data[3] = ApiKey;
                 data[4] = currentUserId;
+                data[5] = currentLat;
+                data[6] = currentLng;
 
                 GetNearbyPlaces gnp = new GetNearbyPlaces();
                 gnp.execute(data);

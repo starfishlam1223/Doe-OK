@@ -33,6 +33,7 @@
     <string name="rest_unknown">The opening hours is currently unknown</string>
     <string name="rest_open">The place is now open</string>
     <string name="rest_close">The place is now closed</string>
+    <string name="rest_distance_ph">~500m</string>
     <string name="rest_vicinity_ph">Restaurant vicinity</string>
     <string name="rest_rating_title">Rating:</string>
     <string name="rest_rating_ph">5</string>
