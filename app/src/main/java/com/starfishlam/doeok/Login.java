@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -79,6 +80,12 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ProgressDialog pdialog = new ProgressDialog(mCtx);
+
+                pdialog.setCancelable(false);
+                pdialog.setMessage("Loading...");
+                pdialog.show();
+
                 String usernameStr = username.getText().toString();
                 String passwordStr = password.getText().toString();
 
@@ -100,11 +107,14 @@ public class Login extends AppCompatActivity {
                             main.putExtra("user", loginedUser);
                             startActivity(main);
                         }
+
+                        pdialog.hide();
                     }
 
                     @Override
                     public void onError(QBResponseException e) {
                         Toast.makeText(getBaseContext(), "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        pdialog.hide();
                     }
                 });
             }

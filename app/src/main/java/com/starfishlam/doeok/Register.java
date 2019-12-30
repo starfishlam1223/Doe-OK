@@ -41,13 +41,14 @@ public class Register extends AppCompatActivity {
 
     EditText username, password, fullname, email;
     Button register, cancel;
-    File avatarFile;
+    Context mCtx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+
+        mCtx = this;
         registerSession();
 
         username = findViewById(R.id.register_username);
@@ -83,6 +84,12 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ProgressDialog pdialog = new ProgressDialog(mCtx);
+
+                pdialog.setCancelable(false);
+                pdialog.setMessage("Loading...");
+                pdialog.show();
+
                 final String usernameStr = username.getText().toString();
                 final String passwordStr = password.getText().toString();
                 String fullnameStr = fullname.getText().toString();
@@ -97,11 +104,14 @@ public class Register extends AppCompatActivity {
                     public void onSuccess(QBUser registeredQbUser, Bundle bundle) {
                         Toast.makeText(getBaseContext(), "Register successfully", Toast.LENGTH_LONG).show();
                         finish();
+
+                        pdialog.hide();
                     }
 
                     @Override
                     public void onError(QBResponseException e) {
                         Toast.makeText(getBaseContext(), "Register failed:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        pdialog.hide();
                     }
                 });
             }

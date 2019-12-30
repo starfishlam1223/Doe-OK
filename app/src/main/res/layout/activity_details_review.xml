@@ -16,9 +16,9 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
+        android:background="#DDDDDD"
         android:clickable="true"
-        android:scaleType="centerCrop"
-        tools:srcCompat="#DDDDDD" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/review_title"

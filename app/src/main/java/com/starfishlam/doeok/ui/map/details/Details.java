@@ -1,5 +1,6 @@
 package com.starfishlam.doeok.ui.map.details;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
@@ -34,6 +35,7 @@ import com.quickblox.users.model.QBUser;
 import com.starfishlam.doeok.Common;
 import com.starfishlam.doeok.R;
 import com.starfishlam.doeok.Review;
+import com.starfishlam.doeok.Reviews;
 import com.starfishlam.doeok.ui.map.Restaurant;
 
 import org.json.JSONArray;
@@ -46,9 +48,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Details extends ListActivity implements TextWatcher, RadioGroup.OnCheckedChangeListener {
+public class Details extends AppCompatActivity implements TextWatcher, RadioGroup.OnCheckedChangeListener {
 
     Context mCtx = this;
 
@@ -72,7 +75,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
     TextView name, vicinity, distance, open, avgRating;
     EditText reviewTitle, reviewContent;
     RadioGroup rating;
-    Button submit;
+    Button submit, viewReviewsBtn;
     ImageView image;
 
     int currentUserId;
@@ -104,6 +107,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
         rating = findViewById(R.id.details_write_review_rating);
 
         submit = findViewById(R.id.details_write_review_submit);
+        viewReviewsBtn = findViewById(R.id.view_reviews);
 
         Intent parent = getIntent();
         Restaurant rest = (Restaurant) parent.getSerializableExtra("info");
@@ -187,6 +191,7 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
         } else if (taskCode == Common.ACTION_WRITE_REVIEW) {
             url = "https://i.cs.hku.hk/~hslam/comp3330/doe-ok/php/write.php?restid=" + restId + "&userid=" + currentUserId + "&rating=" + reviewRatingInt + "&title=" + reviewTitleStr + "&content=" + reviewContentStr + "&rest_name=" + nameStr;
         }
+        Log.e("url", url);
 
         final String finalUrl = url;
         AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
@@ -202,6 +207,10 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
                 jsonString = getJsonPage(finalUrl);
                 if (jsonString.equals("Fail to login"))
                     success = false;
+
+                Log.e("jsonString", jsonString);
+                Log.e("success", (success?"true":"false"));
+
                 return null;
             }
 
@@ -249,6 +258,8 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
                 noReview.setVisibility(View.GONE);
             }
 
+            final boolean reviewsInserted[] = new boolean [jsonEvents.length()];
+            Arrays.fill(reviewsInserted, false);
             for (int i = 0 ; i < jsonEvents.length(); i++) {
                 final JSONObject jsonEvent = jsonEvents.getJSONObject(i);
 
@@ -272,12 +283,30 @@ public class Details extends ListActivity implements TextWatcher, RadioGroup.OnC
                             contentStr = jsonEvent.getString("content");
 
                             Review review = new Review(nameStr, fullnameStr, commentDateStr, ratingInt, titleStr, contentStr);
+                            Log.e("Review Title", titleStr);
 
                             reviews.add(review);
+                            reviewsInserted[finalI] = true;
 
-                            if (finalI == jsonEvents.length() - 1) {
-                                ReviewListAdapter adapter = new ReviewListAdapter(mCtx, R.layout.activity_details_review, reviews);
-                                setListAdapter(adapter);
+                            boolean allInserted = true;
+                            for (boolean value : reviewsInserted) {
+                                if (!value)
+                                    allInserted = false;
+                            }
+                            Log.e("Reviews Length", String.valueOf(reviews.size()));
+                            if (allInserted) {
+                                viewReviewsBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent viewReviewsIntent = new Intent(mCtx, ViewReviews.class);
+                                        Reviews reviewsObj = new Reviews(reviews);
+                                        viewReviewsIntent.putExtra("reviews", reviewsObj);
+                                        startActivity(viewReviewsIntent);
+                                    }
+                                });
+
+                                Log.e("Final Reviews Length", String.valueOf(reviews.size()));
+                                Log.e("Iteration", String.valueOf(finalI));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
